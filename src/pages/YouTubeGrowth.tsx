@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 
 const YouTubeGrowth: React.FC = () => {
-  const { youtubeMetrics, updateYouTubeMetrics, contentPipeline, addVideoProject, deleteVideoProject, updateVideoStage, toggleVideoTask } = useApp();
+  const { youtubeMetrics, updateYouTubeMetrics, contentPipeline, addVideoProject, deleteVideoProject, toggleVideoTask } = useApp();
   const [newVideoTitle, setNewVideoTitle] = useState('');
 
   const handleAddVideo = () => {
@@ -100,24 +100,6 @@ const YouTubeGrowth: React.FC = () => {
                 </div>
 
                 <div className="p-4 space-y-4">
-                  {/* Stage Selector */}
-                  <div className="flex gap-1 bg-slate-950 p-1 rounded-lg">
-                    {['Drafting', 'Recording', 'Editing', 'Uploaded'].map((stage) => (
-                      <button
-                        key={stage}
-                        onClick={() => updateVideoStage(project.id, stage as any)}
-                        className={cn(
-                          "flex-1 text-xs font-medium py-1.5 rounded-md transition-all",
-                          project.stage === stage 
-                            ? "bg-slate-800 text-white shadow-sm" 
-                            : "text-slate-500 hover:text-slate-300"
-                        )}
-                      >
-                        {stage}
-                      </button>
-                    ))}
-                  </div>
-
                   {/* Tasks */}
                   <div className="space-y-2">
                     {project.tasks.map(task => (
