@@ -1,0 +1,16 @@
+{
+  "name": "Double Sprint",
+  "short_name": "DoubleSprint",
+  "description": "Track your exam prep and YouTube growth.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
