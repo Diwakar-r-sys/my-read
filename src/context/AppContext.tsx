@@ -101,36 +101,6 @@ const initialSubjects: Subject[] = [
     ]
   },
   {
-    id: 'physics',
-    name: 'Physics',
-    color: 'bg-purple-500',
-    tasks: [
-      { id: 'p1', title: 'Mechanics: Kinematics', completed: true },
-      { id: 'p2', title: 'Mechanics: Newton\'s Laws', completed: true },
-      { id: 'p3', title: 'Thermodynamics', completed: false },
-      { id: 'p4', title: 'Electromagnetism', completed: false },
-    ]
-  },
-  {
-    id: 'chem',
-    name: 'Chemistry',
-    color: 'bg-green-500',
-    tasks: [
-      { id: 'c1', title: 'Organic: Hydrocarbons', completed: false },
-      { id: 'c2', title: 'Inorganic: Periodic Table', completed: false },
-      { id: 'c3', title: 'Physical: Kinetics', completed: false },
-    ]
-  },
-  {
-    id: 'bio',
-    name: 'Biology',
-    color: 'bg-emerald-500',
-    tasks: [
-      { id: 'b1', title: 'Cell Biology', completed: false },
-      { id: 'b2', title: 'Genetics', completed: false },
-    ]
-  },
-  {
     id: 'eng',
     name: 'English',
     color: 'bg-yellow-500',
@@ -139,33 +109,15 @@ const initialSubjects: Subject[] = [
       { id: 'e2', title: 'Literature Review', completed: false },
     ]
   },
-  {
-    id: 'cs',
-    name: 'Computer Science',
-    color: 'bg-cyan-500',
-    tasks: [
-      { id: 'cs1', title: 'Data Structures', completed: true },
-      { id: 'cs2', title: 'Algorithms', completed: false },
-    ]
-  },
-  {
-    id: 'hist',
-    name: 'History',
-    color: 'bg-red-500',
-    tasks: [
-      { id: 'h1', title: 'World War I', completed: false },
-      { id: 'h2', title: 'World War II', completed: false },
-    ]
-  },
 ];
 
 const initialSchedule: TimeBlock[] = [
   { id: '1', startTime: '06:00', endTime: '08:00', activity: 'Morning Routine & Exercise', type: 'Health', completed: true },
-  { id: '2', startTime: '08:00', endTime: '12:00', activity: 'Deep Study Session 1 (Math/Physics)', type: 'Deep Study', completed: false },
+  { id: '2', startTime: '08:00', endTime: '12:00', activity: 'Deep Study Session 1 (Mathematics)', type: 'Deep Study', completed: false },
   { id: '3', startTime: '12:00', endTime: '13:00', activity: 'Lunch & Rest', type: 'Rest', completed: false },
   { id: '4', startTime: '13:00', endTime: '16:00', activity: 'YouTube Production (Script/Edit)', type: 'YouTube', completed: false },
   { id: '5', startTime: '16:00', endTime: '17:00', activity: 'Power Nap / Walk', type: 'Health', completed: false },
-  { id: '6', startTime: '17:00', endTime: '21:00', activity: 'Deep Study Session 2 (Chem/Bio)', type: 'Deep Study', completed: false },
+  { id: '6', startTime: '17:00', endTime: '21:00', activity: 'Deep Study Session 2 (English)', type: 'Deep Study', completed: false },
   { id: '7', startTime: '21:00', endTime: '22:00', activity: 'Dinner & Wind Down', type: 'Rest', completed: false },
   { id: '8', startTime: '22:00', endTime: '23:00', activity: 'Review & Plan Next Day', type: 'Other', completed: false },
 ];
