@@ -168,7 +168,7 @@ const NavButton = ({ icon, label, active, onClick }: { icon: React.ReactNode, la
   <button
     onClick={onClick}
     className={cn(
-      "flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm font-medium transition-all",
+      "flex items-center gap-3 w-full px-4 py-4 rounded-lg text-base font-medium transition-all",
       active 
         ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" 
         : "text-slate-400 hover:bg-slate-900 hover:text-slate-200"
@@ -183,17 +183,17 @@ const NavButtonMobile = ({ icon, label, active, onClick }: { icon: React.ReactNo
   <button
     onClick={onClick}
     className={cn(
-      "flex flex-col items-center gap-1 p-2 rounded-xl transition-all w-16",
+      "flex flex-col items-center gap-1 p-2 rounded-xl transition-all w-20",
       active ? "text-blue-500" : "text-slate-500 hover:text-slate-300"
     )}
   >
     <div className={cn(
-      "p-1 rounded-lg transition-all",
+      "p-1.5 rounded-lg transition-all",
       active && "bg-blue-500/10"
     )}>
-      {icon}
+      {React.cloneElement(icon as React.ReactElement, { size: 24 })}
     </div>
-    <span className="text-[10px] font-medium">{label}</span>
+    <span className="text-xs font-medium">{label}</span>
   </button>
 );
 

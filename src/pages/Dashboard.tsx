@@ -107,7 +107,7 @@ const Dashboard: React.FC = () => {
       <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
         <div className="space-y-1">
           <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Protocol Dashboard</h1>
-          <p className="text-sm md:text-base text-slate-400">Day 1 of 30. Stay focused.</p>
+          <p className="text-base text-slate-400">Day 1 of 30. Stay focused.</p>
         </div>
         <div className="flex items-center gap-2 self-start md:self-auto">
           <div className="bg-slate-900/80 backdrop-blur border border-slate-800 px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
@@ -124,15 +124,15 @@ const Dashboard: React.FC = () => {
           onClick={() => setActiveTab('exam')}
         >
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2 group-hover:text-blue-400 transition-colors">
-              <BookOpen size={16} className="text-blue-500" />
+            <CardTitle className="text-base font-medium text-slate-400 flex items-center gap-2 group-hover:text-blue-400 transition-colors">
+              <BookOpen size={18} className="text-blue-500" />
               Exam Readiness
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold text-white mb-2">{examReadiness}%</div>
             <ProgressBar value={examReadiness} className="h-3 bg-slate-800" indicatorClassName="bg-blue-600" />
-            <p className="text-xs text-slate-500 mt-2">{completedExamTasks}/{totalExamTasks} Topics Covered</p>
+            <p className="text-sm text-slate-500 mt-2">{completedExamTasks}/{totalExamTasks} Topics Covered</p>
           </CardContent>
         </Card>
 
@@ -141,15 +141,15 @@ const Dashboard: React.FC = () => {
           onClick={() => setActiveTab('youtube')}
         >
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2 group-hover:text-red-400 transition-colors">
-              <Youtube size={16} className="text-red-500" />
+            <CardTitle className="text-base font-medium text-slate-400 flex items-center gap-2 group-hover:text-red-400 transition-colors">
+              <Youtube size={18} className="text-red-500" />
               Monetization Goal
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold text-white mb-2">{monetizationReadiness}%</div>
             <ProgressBar value={monetizationReadiness} className="h-3 bg-slate-800" indicatorClassName="bg-red-600" />
-            <div className="flex justify-between text-xs text-slate-500 mt-2">
+            <div className="flex justify-between text-sm text-slate-500 mt-2">
               <span>{youtubeMetrics.subscribers}/1000 Subs</span>
               <span>{youtubeMetrics.watchHours}/4000 Hours</span>
             </div>
@@ -160,7 +160,7 @@ const Dashboard: React.FC = () => {
       {/* Action Required */}
       <Card className="border-red-900/30 bg-red-950/10">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-red-400">
+          <CardTitle className="flex items-center gap-2 text-red-400 text-lg">
             <AlertTriangle size={20} />
             Action Required: Incomplete Tasks
           </CardTitle>
@@ -168,8 +168,8 @@ const Dashboard: React.FC = () => {
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* YouTube Tasks */}
           <div>
-            <h4 className="text-sm font-semibold text-red-400 mb-4 flex items-center gap-2">
-              <Youtube size={14} /> YouTube Growth
+            <h4 className="text-base font-semibold text-red-400 mb-4 flex items-center gap-2">
+              <Youtube size={16} /> YouTube Growth
             </h4>
             <div className="space-y-3">
               {pendingVideoTasks.map((task, i) => (
@@ -179,8 +179,8 @@ const Dashboard: React.FC = () => {
                 >
                   <div className="mt-1 w-4 h-4 rounded border border-slate-600" />
                   <div>
-                    <p className="text-sm font-medium text-slate-200">{task.video}</p>
-                    <p className="text-xs text-slate-500">{task.title}</p>
+                    <p className="text-base font-medium text-slate-200">{task.video}</p>
+                    <p className="text-sm text-slate-500">{task.title}</p>
                   </div>
                 </motion.div>
               ))}
@@ -191,14 +191,14 @@ const Dashboard: React.FC = () => {
           {/* Exam Tasks */}
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h4 className="text-sm font-semibold text-green-400 flex items-center gap-2">
-                <Target size={14} /> Daily Goals
+              <h4 className="text-base font-semibold text-green-400 flex items-center gap-2">
+                <Target size={16} /> Daily Goals
               </h4>
               <button 
                 onClick={() => setIsAddingGoal(true)}
-                className="text-xs flex items-center gap-1 bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 px-2 py-1 rounded transition-colors"
+                className="text-sm flex items-center gap-1 bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 px-3 py-1.5 rounded transition-colors"
               >
-                Add Today Goal <Plus size={12} />
+                Add Today Goal <Plus size={14} />
               </button>
             </div>
             <div className="space-y-3">
@@ -210,8 +210,8 @@ const Dashboard: React.FC = () => {
                   <div className="flex items-start gap-3">
                     <div className="mt-1 w-4 h-4 rounded border border-slate-600" />
                     <div>
-                      <p className="text-sm font-medium text-slate-200">{task.title}</p>
-                      <p className="text-xs text-slate-500 flex items-center gap-1">
+                      <p className="text-base font-medium text-slate-200">{task.title}</p>
+                      <p className="text-sm text-slate-500 flex items-center gap-1">
                         <span className={`w-2 h-2 rounded-full ${task.color}`} />
                         {task.subject}
                       </p>
@@ -219,10 +219,10 @@ const Dashboard: React.FC = () => {
                   </div>
                   <button 
                     onClick={() => deleteTask(task.subjectId, task.id)}
-                    className="text-slate-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1"
+                    className="text-slate-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-2"
                     title="Delete Goal"
                   >
-                    <Trash2 size={14} />
+                    <Trash2 size={16} />
                   </button>
                 </motion.div>
               ))}
