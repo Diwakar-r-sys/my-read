@@ -1,11 +1,26 @@
-<div align="center">
+# Double Sprint App
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+A productivity application for tracking exam preparation and YouTube channel growth simultaneously.
 
-  <h1>Built with AI Studio</h2>
+## Deployment to Vercel
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+This project is configured for easy deployment on Vercel.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+### Steps:
 
-</div>
+1.  **Push to GitHub**: Ensure your code is pushed to a GitHub repository.
+2.  **Import to Vercel**: Go to [vercel.com](https://vercel.com), click "Add New Project", and select your repository.
+3.  **Configure Build Settings**:
+    *   **Framework Preset**: Vite
+    *   **Build Command**: `npm run build` (or `vite build`)
+    *   **Output Directory**: `dist`
+4.  **Environment Variables**:
+    *   Add `GEMINI_API_KEY` if you are using Google Gemini features.
+    *   Add any other environment variables from `.env.example`.
+5.  **Deploy**: Click "Deploy".
+
+### Local Development
+
+1.  Install dependencies: `npm install`
+2.  Start dev server: `npm run dev`
+3.  Build for production: `npm run build`
