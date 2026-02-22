@@ -53,11 +53,10 @@ const Timeline: React.FC = () => {
             
             <div 
               className={cn(
-                "p-5 rounded-2xl border transition-all cursor-pointer group relative overflow-hidden",
+                "p-5 rounded-2xl border transition-all group relative overflow-hidden",
                 getTypeColor(block.type),
-                block.completed ? "opacity-60 grayscale-[0.5]" : "hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                block.completed ? "opacity-60 grayscale-[0.5]" : "shadow-lg"
               )}
-              onClick={() => toggleScheduleBlock(block.id)}
             >
               {/* Active Glow for current block (first incomplete) */}
               {!block.completed && index === schedule.findIndex(s => !s.completed) && (
@@ -68,7 +67,12 @@ const Timeline: React.FC = () => {
                 <span className="font-mono text-sm font-bold opacity-70 tracking-wider">
                   {block.startTime} - {block.endTime}
                 </span>
-                {block.completed ? <CheckCircle size={18} className="text-green-500" /> : <Circle size={18} className="opacity-50 group-hover:opacity-100 transition-opacity" />}
+                <button
+                  onClick={() => toggleScheduleBlock(block.id)}
+                  className="text-slate-400 hover:text-white transition-colors focus:outline-none p-1 -m-1 rounded-full hover:bg-white/10"
+                >
+                  {block.completed ? <CheckCircle size={22} className="text-green-500" /> : <Circle size={22} className="opacity-50 hover:opacity-100 transition-opacity" />}
+                </button>
               </div>
               <h3 className="text-xl font-bold text-white mb-1 relative z-10">{block.activity}</h3>
               <span className="text-[10px] uppercase tracking-[0.2em] font-bold opacity-50 relative z-10">

@@ -53,6 +53,7 @@ interface AppState {
   schedule: TimeBlock[];
   checkIns: DailyCheckIn[];
   emergencyMode: boolean;
+  dailyGoals: Task[];
 }
 
 interface AppContextType extends AppState {
@@ -72,6 +73,9 @@ interface AppContextType extends AppState {
   deleteSubject: (id: string) => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  addDailyGoal: (title: string) => void;
+  toggleDailyGoal: (id: string) => void;
+  deleteDailyGoal: (id: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -150,6 +154,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [schedule, setSchedule] = useState<TimeBlock[]>(() => getLocalStorage('schedule', initialSchedule));
 
   const [checkIns, setCheckIns] = useState<DailyCheckIn[]>(() => getLocalStorage('checkIns', []));
+  
+  const [dailyGoals, setDailyGoals] = useState<Task[]>(() => getLocalStorage('dailyGoals', []));
 
   const [emergencyMode, setEmergencyMode] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -160,6 +166,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => { localStorage.setItem('contentPipeline', JSON.stringify(contentPipeline)); }, [contentPipeline]);
   useEffect(() => { localStorage.setItem('schedule', JSON.stringify(schedule)); }, [schedule]);
   useEffect(() => { localStorage.setItem('checkIns', JSON.stringify(checkIns)); }, [checkIns]);
+  useEffect(() => { localStorage.setItem('dailyGoals', JSON.stringify(dailyGoals)); }, [dailyGoals]);
 
   // Actions
   const toggleTask = (subjectId: string, taskId: string) => {
@@ -184,6 +191,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         ? { ...sub, tasks: sub.tasks.filter(t => t.id !== taskId) }
         : sub
     ));
+  };
+
+  const addDailyGoal = (title: string) => {
+    setDailyGoals(prev => [...prev, { id: uuidv4(), title, completed: false }]);
+  };
+
+  const toggleDailyGoal = (id: string) => {
+    setDailyGoals(prev => prev.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
+  };
+
+  const deleteDailyGoal = (id: string) => {
+    setDailyGoals(prev => prev.filter(t => t.id !== id));
   };
 
   const updateYouTubeMetrics = (metrics: Partial<YouTubeMetrics>) => {
@@ -264,11 +283,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return (
     <AppContext.Provider value={{
-      subjects, youtubeMetrics, contentPipeline, schedule, checkIns, emergencyMode,
+      subjects, youtubeMetrics, contentPipeline, schedule, checkIns, emergencyMode, dailyGoals,
       toggleTask, addTask, deleteTask, updateYouTubeMetrics, addVideoProject, updateVideoStage, toggleVideoTask, deleteVideoProject,
       toggleScheduleBlock, submitMorningCheckIn, submitEveningCheckIn, toggleEmergencyMode,
       addSubject, deleteSubject,
-      activeTab, setActiveTab
+      activeTab, setActiveTab,
+      addDailyGoal, toggleDailyGoal, deleteDailyGoal
     }}>
       {children}
     </AppContext.Provider>

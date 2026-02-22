@@ -4,20 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { AlertTriangle, CheckCircle, Youtube, BookOpen, Target, Plus, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { cn } from '@/lib/utils';
 
 const Dashboard: React.FC = () => {
-  const { subjects, youtubeMetrics, contentPipeline, schedule, addTask, deleteTask, setActiveTab } = useApp();
+  const { subjects, youtubeMetrics, contentPipeline, schedule, addDailyGoal, toggleDailyGoal, deleteDailyGoal, dailyGoals, setActiveTab } = useApp();
   
   const [isAddingGoal, setIsAddingGoal] = React.useState(false);
   const [newGoalTitle, setNewGoalTitle] = React.useState('');
-  const [selectedSubjectId, setSelectedSubjectId] = React.useState('');
-
-  // Update selectedSubjectId when subjects are loaded or changed
-  React.useEffect(() => {
-    if (subjects.length > 0 && !selectedSubjectId) {
-      setSelectedSubjectId(subjects[0].id);
-    }
-  }, [subjects, selectedSubjectId]);
 
   // Calculate Exam Readiness
   const totalExamTasks = subjects.reduce((acc, sub) => acc + sub.tasks.length, 0);
@@ -31,20 +24,14 @@ const Dashboard: React.FC = () => {
   const watchProgress = Math.min((youtubeMetrics.watchHours / watchHourGoal) * 100, 100);
   const monetizationReadiness = Math.round((subProgress + watchProgress) / 2);
 
-  // Get pending tasks (Top 5 from each)
-  const pendingExamTasks = subjects
-    .flatMap(s => s.tasks.map(t => ({ ...t, subject: s.name, color: s.color, subjectId: s.id })))
-    .filter(t => !t.completed)
-    .slice(0, 5);
-
   const pendingVideoTasks = contentPipeline
     .flatMap(v => v.tasks.map(t => ({ ...t, video: v.title })))
     .filter(t => !t.completed)
     .slice(0, 3);
 
   const handleAddGoal = () => {
-    if (newGoalTitle.trim() && selectedSubjectId) {
-      addTask(selectedSubjectId, newGoalTitle);
+    if (newGoalTitle.trim()) {
+      addDailyGoal(newGoalTitle);
       setNewGoalTitle('');
       setIsAddingGoal(false);
     }
@@ -71,19 +58,6 @@ const Dashboard: React.FC = () => {
                 />
               </div>
               
-              <div>
-                <label className="block text-sm text-slate-400 mb-1">Subject</label>
-                <select 
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                  value={selectedSubjectId}
-                  onChange={(e) => setSelectedSubjectId(e.target.value)}
-                >
-                  {subjects.map(s => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
-                  ))}
-                </select>
-              </div>
-
               <div className="flex justify-end gap-2 mt-6">
                 <button 
                   onClick={() => setIsAddingGoal(false)}
@@ -188,7 +162,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Exam Tasks */}
+          {/* Daily Goals */}
           <div>
             <div className="flex justify-between items-center mb-4">
               <h4 className="text-base font-semibold text-green-400 flex items-center gap-2">
@@ -202,23 +176,32 @@ const Dashboard: React.FC = () => {
               </button>
             </div>
             <div className="space-y-3">
-              {pendingExamTasks.map((task, i) => (
+              {dailyGoals.map((task, i) => (
                 <motion.div 
                   initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
-                  key={i} className="flex items-center justify-between gap-3 p-3 rounded-lg bg-slate-900/50 border border-slate-800/50 group"
+                  key={task.id} 
+                  className="flex items-center justify-between gap-3 p-3 rounded-lg bg-slate-900/50 border border-slate-800/50 group cursor-pointer hover:bg-slate-800/50"
+                  onClick={() => toggleDailyGoal(task.id)}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="mt-1 w-4 h-4 rounded border border-slate-600" />
+                    <div className={cn(
+                      "mt-1 w-4 h-4 rounded border flex items-center justify-center transition-colors",
+                      task.completed ? "bg-green-500 border-green-500" : "border-slate-600"
+                    )}>
+                      {task.completed && <CheckCircle size={12} className="text-slate-900" />}
+                    </div>
                     <div>
-                      <p className="text-base font-medium text-slate-200">{task.title}</p>
-                      <p className="text-sm text-slate-500 flex items-center gap-1">
-                        <span className={`w-2 h-2 rounded-full ${task.color}`} />
-                        {task.subject}
-                      </p>
+                      <p className={cn(
+                        "text-base font-medium transition-all",
+                        task.completed ? "text-slate-500 line-through" : "text-slate-200"
+                      )}>{task.title}</p>
                     </div>
                   </div>
                   <button 
-                    onClick={() => deleteTask(task.subjectId, task.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteDailyGoal(task.id);
+                    }}
                     className="text-slate-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-2"
                     title="Delete Goal"
                   >
@@ -226,7 +209,7 @@ const Dashboard: React.FC = () => {
                   </button>
                 </motion.div>
               ))}
-              {pendingExamTasks.length === 0 && <p className="text-slate-500 text-sm italic">All caught up!</p>}
+              {dailyGoals.length === 0 && <p className="text-slate-500 text-sm italic">No goals set for today.</p>}
             </div>
           </div>
         </CardContent>
