@@ -54,6 +54,7 @@ interface AppState {
   checkIns: DailyCheckIn[];
   emergencyMode: boolean;
   dailyGoals: Task[];
+  sprintDeadline: string;
 }
 
 interface AppContextType extends AppState {
@@ -159,6 +160,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [emergencyMode, setEmergencyMode] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
+  
+  const [sprintDeadline, setSprintDeadline] = useState<string>(() => 
+    getLocalStorage('sprintDeadline', new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString())
+  );
 
   // Persistence
   useEffect(() => { localStorage.setItem('subjects', JSON.stringify(subjects)); }, [subjects]);
@@ -167,6 +172,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => { localStorage.setItem('schedule', JSON.stringify(schedule)); }, [schedule]);
   useEffect(() => { localStorage.setItem('checkIns', JSON.stringify(checkIns)); }, [checkIns]);
   useEffect(() => { localStorage.setItem('dailyGoals', JSON.stringify(dailyGoals)); }, [dailyGoals]);
+  useEffect(() => { localStorage.setItem('sprintDeadline', JSON.stringify(sprintDeadline)); }, [sprintDeadline]);
 
   // Actions
   const toggleTask = (subjectId: string, taskId: string) => {
@@ -218,7 +224,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         { id: uuidv4(), title: 'Topic Research', completed: false },
         { id: uuidv4(), title: 'Script Writing', completed: false },
         { id: uuidv4(), title: 'Voice Recording', completed: false },
+        { id: uuidv4(), title: 'Image, Effect, video and Asset', completed: false },
         { id: uuidv4(), title: 'Video Editing', completed: false },
+        { id: uuidv4(), title: 'Sound effect, SFC and Background Music', completed: false },
         { id: uuidv4(), title: 'Thumbnail Design', completed: false },
         { id: uuidv4(), title: 'Title & Description', completed: false },
       ]
@@ -283,7 +291,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return (
     <AppContext.Provider value={{
-      subjects, youtubeMetrics, contentPipeline, schedule, checkIns, emergencyMode, dailyGoals,
+      subjects, youtubeMetrics, contentPipeline, schedule, checkIns, emergencyMode, dailyGoals, sprintDeadline,
       toggleTask, addTask, deleteTask, updateYouTubeMetrics, addVideoProject, updateVideoStage, toggleVideoTask, deleteVideoProject,
       toggleScheduleBlock, submitMorningCheckIn, submitEveningCheckIn, toggleEmergencyMode,
       addSubject, deleteSubject,

@@ -10,9 +10,24 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { emergencyMode, toggleEmergencyMode, checkIns, submitMorningCheckIn, submitEveningCheckIn, activeTab, setActiveTab } = useApp();
+  const { emergencyMode, toggleEmergencyMode, checkIns, submitMorningCheckIn, submitEveningCheckIn, activeTab, setActiveTab, sprintDeadline } = useApp();
   const [showMorningCheckIn, setShowMorningCheckIn] = useState(false);
   const [showEveningCheckIn, setShowEveningCheckIn] = useState(false);
+  const [daysLeft, setDaysLeft] = useState(30);
+
+  useEffect(() => {
+    const calculateDaysLeft = () => {
+      const now = new Date();
+      const target = new Date(sprintDeadline);
+      const diff = target.getTime() - now.getTime();
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      setDaysLeft(days > 0 ? days : 0);
+    };
+    
+    calculateDaysLeft();
+    const interval = setInterval(calculateDaysLeft, 60000); // Update every minute
+    return () => clearInterval(interval);
+  }, [sprintDeadline]);
 
   // Check for check-ins
   useEffect(() => {
@@ -53,7 +68,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <aside className="w-64 border-r border-slate-800 bg-slate-950 flex flex-col hidden md:flex">
         <div className="p-6">
           <h1 className="text-2xl font-bold tracking-tight text-blue-500">DOUBLE<span className="text-white">SPRINT</span></h1>
-          <p className="text-xs text-slate-500 mt-1">30 Days to Glory</p>
+          <p className="text-xs text-slate-500 mt-1">{daysLeft} Days to Glory</p>
         </div>
 
         <nav className="flex-1 px-4 space-y-2">
@@ -198,16 +213,21 @@ const NavButtonMobile = ({ icon, label, active, onClick }: { icon: React.ReactNo
 );
 
 const EmergencyOverlay = ({ onClose }: { onClose: () => void }) => {
+  const { sprintDeadline } = useApp();
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
-    // Target: 30 days from now (mock)
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 30);
+    const targetDate = new Date(sprintDeadline);
     
     const updateTimer = () => {
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
+      
+      if (diff <= 0) {
+        setTimeLeft("0d 0h 0m 0s");
+        return;
+      }
+
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -218,7 +238,7 @@ const EmergencyOverlay = ({ onClose }: { onClose: () => void }) => {
     const interval = setInterval(updateTimer, 1000);
     updateTimer();
     return () => clearInterval(interval);
-  }, []);
+  }, [sprintDeadline]);
 
   return (
     <motion.div 
