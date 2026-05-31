@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Clock, BookOpen, Youtube, AlertTriangle, CheckCircle, ChevronLeft } from 'lucide-react';
+import { LayoutDashboard, Clock, BookOpen, Youtube, AlertTriangle, CheckCircle, ChevronLeft, ListTodo } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { useApp } from '@/context/AppContext';
@@ -55,6 +55,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const getPageTitle = () => {
     switch (activeTab) {
+      case 'work': return 'Work Today';
       case 'timeline': return '24h Timeline';
       case 'exam': return 'Exam Tracker';
       case 'youtube': return 'YouTube Growth';
@@ -77,6 +78,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             label="Command Center" 
             active={activeTab === 'dashboard'} 
             onClick={() => setActiveTab('dashboard')} 
+          />
+          <NavButton 
+            icon={<ListTodo size={20} />} 
+            label="Work Today" 
+            active={activeTab === 'work'} 
+            onClick={() => setActiveTab('work')} 
           />
           <NavButton 
             icon={<Clock size={20} />} 
@@ -134,10 +141,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Mobile Nav (Bottom) */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-xl border-t border-slate-800/50 flex justify-around items-end p-2 pb-6 z-50">
+          <NavButtonMobile icon={<ListTodo size={22} />} label="Work" active={activeTab === 'work'} onClick={() => setActiveTab('work')} />
           <NavButtonMobile icon={<LayoutDashboard size={22} />} label="Home" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} />
           <NavButtonMobile icon={<Clock size={22} />} label="Timeline" active={activeTab === 'timeline'} onClick={() => setActiveTab('timeline')} />
           
-          <div className="relative -top-5 mx-2">
+          <div className="relative -top-5 mx-1">
             <button 
               onClick={toggleEmergencyMode}
               className="bg-red-600 text-white p-4 rounded-full shadow-xl shadow-red-600/20 border-4 border-slate-950 active:scale-95 transition-transform"
